@@ -1,4 +1,7 @@
 using System.Net;
+using System.Net.Mime;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
@@ -15,16 +18,19 @@ namespace c5m.Functions
         }
 
         [Function("Url2Html")]
-        public HttpResponseData Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestData req)
+        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req)
         {
-            _logger.LogInformation("C# HTTP trigger function processed a request.");
+            string url = req.Query["url"];
+            var urlParts = url.Split('/');
+            string episode = urlParts.Last<string>();
+            string showName = urlParts[urlParts.Length -2];
 
-            var response = req.CreateResponse(HttpStatusCode.OK);
-            response.Headers.Add("Content-Type", "text/plain; charset=utf-8");
+            var iframeCode = $"<iframe width='560' height='315' src='https://learn-video.azurefd.net/vod/player?show={showName}&ep={episode}&embedUrl=contoso.net/builders/cool-ai-resources/' title='Learn video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' allowfullscreen></iframe>";
+            
+            var htmlResponse = $"<html><body>Embed Video:<br/><textarea rows='10' cols='80'>{iframeCode}</textarea><br/><br/><button onclick='window.close()'>Close</button></body><html>";
+            var content = new ContentResult { Content = $"{htmlResponse}", ContentType = "text/html" };
 
-            response.WriteString("Welcome to Azure Functions!");
-
-            return response;
+            return content;
         }
     }
 }
