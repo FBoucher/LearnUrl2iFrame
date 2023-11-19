@@ -3,7 +3,7 @@
 javascript:(function(f,s,n,o){window.open(f+encodeURIComponent(s),n,o)}('https://prod-08.eastus.logic.azure.com/workflows/123/triggers/manual/paths/invoke/postURL?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=uRGDf-_JLucRbbzpOh9N86YNaM-h2_50m1kg1sN08d8&postUrl=%27,window.location,%27yourform%27,%27width=300,height=200%27));
 ```
 
-
+```html
 <html><body><p>The document:'@{variables('NoNullTitle')}' was sent to your device.</p>
 <button onclick='window.close()'>Close</button></body><html>
 
@@ -15,7 +15,10 @@ https://learn.microsoft.com/en-us/shows/open-at-microsoft/introducing-radius-a-n
 
 
 http://localhost:7071/api/Url2Html?url=https://learn.microsoft.com/en-us/shows/open-at-microsoft/introducing-radius-a-new-open-source-project-for-teams-building-cloud-native-apps
+```
 
-[Drag this to see](javascript:(function(f,s,n,o){window.open(f+encodeURIComponent(s),n,o)}('https://frankysnotes.com&postUrl=%27,window.location,%27yourform%27,%27width=300,height=200%27'));")
+[Drag this to see](javascript:(function(f,s,n,o){window.open(f+encodeURIComponent(s),n,o)}('https://frankysnotes.com&postUrl=%27,window.location,%27yourform%27,%27width=300,height=200%27'));)
 
+```javascript
 javascript:(function(f,s,n,o){window.open(f+encodeURIComponent(s),n,o)}('https://prod-08.eastus.logic.azure.com/workflows/e3236069b68f407a8f0999ae5b262cde/triggers/manual/paths/invoke/postURL?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=uRGDf-_JLucRbbzpOh9N86YNaM-h2_50m1kg1sN08d8&postUrl=%27,window.location,%27yourform%27,%27width=300,height=200%27'));
+```
