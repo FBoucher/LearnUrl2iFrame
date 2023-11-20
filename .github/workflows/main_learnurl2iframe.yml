@@ -16,6 +16,9 @@ env:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write #This is required for requesting the JWT
+
     steps:
       - name: 'Checkout GitHub Action'
         uses: actions/checkout@v4
@@ -31,6 +34,13 @@ jobs:
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
           dotnet build --configuration Release --output ./output
           popd
+      
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_BC15FEA42ABD4D6DBE29EBBE0662DB99 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_FCE35B2E82244E3ABA8449967DA213BF }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_31FE488D4CCF4925BC09D080FDEDFE4E }}
 
       - name: 'Run Azure Functions Action'
         uses: Azure/functions-action@v1
@@ -39,4 +49,4 @@ jobs:
           app-name: 'LearnUrl2iFrame'
           slot-name: 'Production'
           package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_0938EF9086E24117B9FF7D14011FA03F }}
+          
