@@ -18,9 +18,20 @@ namespace c5m.Functions
         }
 
         [Function("Url2Html")]
-        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req)
+        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "post", "get")] HttpRequest req)
         {
-            string url = req.Query["url"];
+            string url = string.Empty;
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+
+            if (!string.IsNullOrEmpty(requestBody)) {
+                url = requestBody.Split('=').Last<string>();
+            }
+
+            if(string.IsNullOrEmpty(url))
+            {
+                url = req.Query["url"];
+            }
+
             var urlParts = url.Split('/');
             string episode = urlParts.Last<string>();
             string showName = urlParts[urlParts.Length -2];
